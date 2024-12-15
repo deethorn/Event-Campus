@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Acitizens Ebony Events - User Dashboard</title>
+    <link rel="stylesheet" href="user-dashboard.css">
+</head>
+<body>
+    <header class="user-header">
+        <a href="index.html" class="back-arrow" title="Back to Home">&larr; Home</a>
+        <h1>User Dashboard</h1>
+    </header>
+
+    <main>
+        <!-- User Profile Section -->
+        <section class="profile-section">
+         <div class="profile-container">
+             <div class="profile-pic-container">
+                 <img id="profile-pic" src="default-profile.jpg" alt="Profile Picture">
+             </div>
+             <div class="profile-info">
+                 <h2 id="display-name">Welcome, <span id="user-name">User</span></h2>
+                 <button id="edit-profile-btn">Edit Profile</button>
+             </div>
+         </div>
+     </section>
+ 
+     <!-- Edit Profile Modal -->
+     <div id="edit-profile-modal" class="modal">
+         <div class="modal-content">
+             <span id="close-modal" class="close">&times;</span>
+             <h3>Edit Profile</h3>
+             <label for="new-user-name">Name:</label>
+             <input type="text" id="new-user-name" placeholder="Enter new name">
+             <label for="new-profile-pic">Profile Picture:</label>
+             <input type="file" id="new-profile-pic" accept="image/*">
+             <button id="save-profile-btn">Save Changes</button>
+         </div>
+     </div>
+
+    
+        <!-- Event Filter Section -->
+        <section class="filter-section">
+            <h2>Filter Events</h2>
+            <form id="filter-form">
+                <label>
+                    Name:
+                    <input type="text" id="filter-name" placeholder="Event name">
+                </label>
+                <label>
+                    Date:
+                    <input type="date" id="filter-date">
+                </label>
+                <label>
+                    Location:
+                    <input type="text" id="filter-location"placeholder="Event Location">
+                </label>
+                <label>
+                    Category:
+                    <select id="filter-category">
+                        <option value="">All</option>
+                        <option value="workshops">Workshops</option>
+                        <option value="club events">Club Events</option>
+                        <option value="seminars">Seminars</option>
+                    </select>
+                </label>
+                <label>
+                    Seats:
+                    <input type="number" id="filter-seats" min="1" placeholder="Min Seats">
+                </label>
+                <button type="submit" class="filter-btn">Apply Filters</button>
+            </form>
+        </section>
+
+        <!-- Event Display Section -->
+        <section class="event-display-section">
+            <h2>Events</h2>
+            <!-- <div class="dashboard-controls">  -->
+                <div id="events-container" class="hidden"></div>
+                <div id="calendar-container" class="hidden">
+                <div id="calendar"></div>
+            </div>
+
+            <button id="view-in-grid">View in Grid</button>
+            <button id="view-in-calendar">View in Calendar</button>
+            
+        </section>
+
+        <!-- RSVP Modal -->
+        <div id="rsvp-modal" class="modal">
+            <div class="modal-content">
+                <span id="modal-close" class="close">&times;</span>
+                <h2>RSVP for Event</h2>
+                <p id="modal-event-name"></p>
+                <form id="rsvp-form">
+                    <label for="user-name">Your Name:</label>
+                    <input type="text" id="user-name" required>
+                    <label for="user-email">Your Email:</label>
+                    <input type="email" id="user-email" required>
+                    <button type="submit" id="rsvp-submit">Reserve Seat</button>
+                </form>
+            </div>
+        </div>
+
+      
+
+    </main>
+    
+    
+    <script src="user-profile.js"></script>
+    <script src="user-calendar.js"></script>
+    <script src="user-rsvpform.js"></script>
+    <script src="api.js"></script>
+</body>
+</html>

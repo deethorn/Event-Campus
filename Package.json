@@ -1,0 +1,13 @@
+{
+    "name": "event-management-frontend",
+    "version": "1.0.0",
+    "description": "Frontend for event management website",
+    "main": "index.js",
+    "scripts": {
+        "start": "live-server"
+    },
+    "dependencies": {},
+    "devDependencies": {
+        "live-server": "^1.2.1"
+    }
+}

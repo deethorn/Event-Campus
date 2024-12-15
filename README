@@ -1,0 +1,111 @@
+## Overview
+This is a dynamic web application for managing events, allowing users and admins to interact seamlessly. The application includes features like user registration, login, admin management, event creation, RSVP functionality, and profile editing. Below, you’ll find detailed notes about the application's functionalities, what works as intended, and areas that require debugging or optimization.
+
+
+## Functional Features:
+
+### 1. User Registration and Login
+- What Works:
+  - Users can register and create an account.
+  - Validation for duplicate email addresses ensures unique users.
+  - Users can log in using their registered email and password.
+  - Backend integration for user authentication is functioning.
+- Known Issues:
+  - On some attempts, registration might throw errors like "Registration failed, try again later." This is likely due to database connection issues or missing fields in the backend.
+
+---
+
+### 2. Admin Login and Management
+- What Works:
+  - Admin accounts can be created and logged in.
+  - Admins can create events, which are stored in the database.
+  - Admin dashboards correctly display event statistics.
+- Known Issues:
+  - Admin logout functionality isn't always clearing session tokens, causing occasional session persistence errors.
+  - Inconsistencies in reflecting admin profile changes after updates.
+
+---
+
+### 3. RSVP Functionality
+- What Works:
+  - Users can RSVP to events using the `handleRSVP` function.
+  - RSVP details are stored in the backend and refresh the events list upon successful registration.
+  - Notifications are displayed on successful RSVP submission.
+
+
+### 4. Profile Editing (User and Admin)
+- What Works:
+  - Users and admins can edit their profile information, including updating their name and profile picture.
+  - Profile updates persist in `localStorage` and reflect on the UI upon page reload.
+
+
+
+
+### 5. Event Management
+- What Works:
+  - Admins can create events, and users can view them on their dashboard.
+  - Event details include filters like date, location, category, and name.
+  - Users can see the number of seats available and reserved.
+  - Admins can view details of reserved seats and user information.
+- Known Issues:
+  - Filtering events sometimes doesn't work correctly due to missing or mismatched attributes in the database query.
+  - Seat availability updates are not always reflected in real-time after an RSVP.
+
+---
+
+### 6. UI Modals
+- What Works:
+  - Modals for RSVP, profile editing, and event details open successfully.
+  - Proper animations and CSS styles are applied to make the interface responsive.
+
+
+## Errors Identified and Fixes Suggested
+
+### Error 1: Registration Fails
+- Cause:Backend Connectivity Problems.
+- Fix: Ensure the backend registration route matches the frontend form fields. Check the database table schema for required columns.
+
+### Error 2: RSVP Modal Stays Stagnant
+
+- Fixed:Refactored RSVP code to separate modal handling from backend logic. Debugged and restructured `handleRSVP` and `closeRSVPModal` functions.
+
+### Error 3: Profile Edit Modal
+
+- Fixed: Debugged and fixed the modal behavior by ensuring proper event listener attachment. Modified the save button logic to handle blank form submissions.
+
+### Error 4: Event Filters Not Working
+- Cause: Incorrect or missing backend filters for event attributes like date and location.
+- Fix: Ensure proper query parameters are sent from the frontend and matched in the backend.
+
+---
+
+## Deployment Notes
+- Ensure that the backend server is running before starting the frontend.
+- The database should be correctly seeded with required tables (users, admins, events, RSVPs).
+- Use a compatible browser (e.g., Chrome or Firefox) for optimal performance, as some features may not work well on older browsers like Internet Explorer.
+
+---
+
+## How to Run
+1. Start the backend server and ensure the database is connected.
+2. Open the project in your IDE and launch the frontend.
+3. Test the features in the following order:
+   - User Registration and Login
+   - Admin Login and Event Creation
+   - RSVP Functionality
+   - Profile Editing
+4. Debug any remaining errors using the console logs and error messages.
+
+
+
+## Recommendations for Further Improvement
+- Implement proper session handling to avoid persistence errors during logout.
+- Use a robust validation library for handling file uploads and form submissions.
+- Optimize the frontend and backend interaction for faster responses and real-time updates.
+
+##  you can test the application with these credentials:
+Admin: admin@example.com / admin123
+User: user@example.com / user123
+
+## Important Note:
+Due to the connectivity problem of the backend and the frontend, I disconnected the backend from the front end so that you can view other pages apart from the login and sign up page.

@@ -1,0 +1,158 @@
+.about-section {
+    background-color: #000000; /* Black background */
+    color: #F8E8C8; /* Light brown text */
+    padding: 4rem 2rem;
+    text-align: center;
+    position: relative;
+}
+
+.about-section header h2 {
+    font-size: 2.5rem;
+    color: #D42A49; /* Pinkish red */
+    margin-bottom: 2rem;
+}
+
+.about-section p, .about-section ul {
+    font-size: 1.2rem;
+    line-height: 1.8;
+    max-width: 800px;
+    margin: 0 auto 1.5rem auto;
+}
+
+.about-section ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+.about-section ul li {
+    background: rgba(255, 255, 255, 0.1); /* Subtle overlay */
+    padding: 1rem;
+    border-radius: 8px;
+    margin: 0.5rem 0;
+    color: #D42A49; /* Pinkish red */
+    font-weight: bold;
+}
+// DOM Elements
+const profilePic = document.getElementById("profile-pic");
+const displayName = document.getElementById("admin-name");
+const editProfileBtn = document.getElementById("edit-profile-btn");
+const editProfileModal = document.getElementById("edit-profile-modal");
+const closeModal = document.getElementById("close-modal");
+const newAdminName = document.getElementById("new-admin-name");
+const newProfilePic = document.getElementById("new-profile-pic");
+const saveProfileBtn = document.getElementById("save-profile-btn");
+
+// Load Admin Data (Static or From Local Storage)
+function loadAdminData() {
+    const adminData = JSON.parse(localStorage.getItem("adminData")) || {
+        name: "Admin",
+        photo: "default-profile.jpg",
+    };
+    displayName.textContent = adminData.name;
+    profilePic.src = adminData.photo;
+}
+
+// Save Admin Data to Local Storage
+function saveAdminData(name, photo) {
+    const adminData = { name, photo };
+    localStorage.setItem("adminData", JSON.stringify(adminData));
+}
+
+// Open Edit Profile Modal
+editProfileBtn.addEventListener("click", () => {
+    editProfileModal.style.display = "block";
+});
+
+// Close Edit Profile Modal
+closeModal.addEventListener("click", () => {
+    editProfileModal.style.display = "none";
+});
+
+// Save Profile Changes
+saveProfileBtn.addEventListener("click", () => {
+    const updatedName = newAdminName.value || displayName.textContent;
+    const updatedPhoto = newProfilePic.files[0];
+
+    if (updatedPhoto) {
+        const reader = new FileReader();
+        reader.onload = function (e) {
+            profilePic.src = e.target.result;
+            saveAdminData(updatedName, e.target.result);
+            displayName.textContent = updatedName;
+        };
+        reader.readAsDataURL(updatedPhoto);
+    } else {
+        saveAdminData(updatedName, profilePic.src);
+        displayName.textContent = updatedName;
+    }
+
+    editProfileModal.style.display = "none";
+});
+
+// Initialize
+loadAdminData();
+
+// Selecting elements
+const addEventForm = document.getElementById("add-event-form");
+const addEventButton = document.getElementById("add-event-button");
+const eventsTable = document.getElementById("events-table").querySelector("tbody");
+
+// Add Event Button Click Event
+addEventForm.addEventListener("submit", (event) => {
+    event.preventDefault(); // Prevent page refresh
+
+    // Get form values
+
+    const eventName = document.getElementById("event-name").value.trim();
+    const eventDate = document.getElementById("event-date").value.trim();
+    const eventLocation = document.getElementById("event-location").value.trim();
+    const eventDescription = document.getElementById("event-description").value.trim();
+    const eventSpeaker = document.getElementById("event-speaker").value.trim();
+    const eventSeats = document.getElementById("event-seats").value.trim();
+    const eventCategory = document.getElementById("event-category").value;
+    const eventCoverImage = document.getElementById("event-photo").files[0];
+
+    // Validate inputs
+    if (!eventName || !eventDate || !eventLocation || !eventDescription || !eventSpeaker || !eventSeats || !eventCoverImage) {
+        alert("Please fill out all fields and upload a cover image.");
+        return;
+    }
+    const eventId = `event-${Date.now()}`;
+    // Convert the image file to a Data URL
+    const reader = new FileReader();
+    reader.onload = () => {
+        const imageDataUrl = reader.result;
+
+        // Create a new table row
+        const newRow = document.createElement("tr");
+
+        // Add columns to the row
+        newRow.innerHTML = `
+            <td>${eventId}</td>
+            <td>${eventName}</td>
+            <td>${eventDate}</td>
+            <td>${eventLocation}</td>
+            <td>${eventDescription}</td>
+            <td>${eventSpeaker}</td>
+            <td>${eventSeats}</td>
+            <td>${eventCategory}</td>
+            <td><img src="${imageDataUrl}" alt="Cover Image" style="width: 50px; height: auto; border-radius: 5px;"></td>
+            <td><button class="delete-btn">Delete</button></td>
+        `;
+
+        // Append the row to the table
+        eventsTable.appendChild(newRow);
+
+        // Add delete functionality to the new button
+        const deleteButton = newRow.querySelector(".delete-btn");
+        deleteButton.addEventListener("click", () => {
+            newRow.remove();
+        });
+
+        // Reset the form
+        addEventForm.reset();
+    };
+
+    // Read the file as Data URL
+    reader.readAsDataURL(eventCoverImage);
+});

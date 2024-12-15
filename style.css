@@ -1,0 +1,364 @@
+/* body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f8f9fa;
+}
+
+header {
+    background-color: #343a40;
+    color: white;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 2rem;
+}
+
+header h1 {
+    margin: 0;
+}
+
+nav button {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 0.5rem 1rem;
+    margin-left: 1rem;
+    cursor: pointer;
+    border-radius: 4px;
+}
+
+main {
+    padding: 2rem;
+}
+
+h2 {
+    color: #343a40;
+}
+
+#filter-options {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 1rem;
+}
+
+#events-container, #admin-events-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+}
+
+.event-card {
+    background-color: white;
+    border: 1px solid #ddd;
+    padding: 1rem;
+    border-radius: 5px;
+    width: calc(33% - 1rem);
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+}
+
+.hidden {
+    display: none;
+}
+
+footer {
+    text-align: center;
+    padding: 1rem;
+    background-color: #343a40;
+    color: white;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+} */
+/* Hero Section */
+/* .hero-section {
+    position: relative;
+    height: 100vh;
+    background: url('school-picture.jpg') no-repeat center center/cover;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); /* Dark overlay */
+    /* display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    color: white;
+    padding: 0 2rem;
+}
+
+header h1 {
+    font-size: 2.5rem;
+    margin-bottom: 2rem;
+}
+
+.button-container {
+    display: flex;
+    gap: 1rem;
+}
+
+.hero-btn {
+    text-decoration: none;
+    color: white;
+    background-color: #007bff;
+    padding: 0.8rem 2rem;
+    font-size: 1rem;
+    border-radius: 5px;
+    transition: background-color 0.3s;
+}
+
+.hero-btn:hover {
+    background-color: #0056b3;
+} */
+ /* */ 
+ /* General Styles */
+body, html {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+    height: 100%;
+}
+
+/* Hero Section */
+.hero-section{
+    position: relative;
+    height: 100vh;
+    background: url('school-picture.jpg') no-repeat center center/cover;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); /* Black overlay for contrast */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    color: lightbrown;
+    padding: 0 2rem;
+}
+
+header h1 {
+    font-size: 3rem;
+    color: #F8E8C8; /* Light brown text color */
+    margin-bottom: 2rem;
+    
+    
+   
+}
+header h2{
+
+    color: #D42A49; /* Light brown text color */
+
+}
+h2 {
+    font-size: 2rem;
+    color: #F8E8C8;
+}
+
+/* Button Styles */
+.button-container {
+    display: flex;
+    gap: 1rem;
+}
+
+.btn {
+    text-decoration: none;
+    color: #F8E8C8;
+    background-color: #D42A49; /* Pinkish red button */
+    padding: 0.8rem 2rem;
+    font-size: 1.2rem;
+    font-weight: bold;
+    border-radius: 5px;
+    border: 2px solid #000000; /* Black border */
+    transition: background-color 0.3s, transform 0.2s;
+}
+
+.btn:hover:hover {
+    background-color: #A52038; /* Darker pinkish red on hover */
+    transform: scale(1.05); /* Slightly enlarges button on hover */
+}
+
+  
+
+/* Footer */
+footer {
+    background-color: #000000; /* Black background */
+    color: #A52038; /* Light brown text color */
+    text-align: right;
+    font-weight: bold;
+    padding: 1rem;
+    position: relative;
+    bottom: 5;
+    width: 100%;
+}
+/* Form Container */
+form {
+    background-color: rgba(0, 0, 0, 0.8); /* Black transparent background */
+    padding: 2rem;
+    border-radius: 10px;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    max-width: 400px;
+    width: 90%;
+    margin: 0 auto;
+}
+
+form input {
+    padding: 0.8rem;
+    border: 1px solid #D42A49; /* Pinkish red border */
+    border-radius: 5px;
+    font-size: 1rem;
+    color: #000000;
+    background-color: #F8E8C8; /* Light brown background */
+}
+
+form input::placeholder {
+    color: #7A5E3A; /* Darker brown placeholder text */
+}
+
+.form-btn {
+    text-decoration: none;
+    color: white;
+    background-color: #D42A49; /* Pinkish red */
+    padding: 0.8rem;
+    font-size: 1.2rem;
+    font-weight: bold;
+    border-radius: 5px;
+    border: 2px solid #000000; /* Black border */
+    transition: background-color 0.3s, transform 0.2s;
+}
+
+.form-btn:hover {
+    background-color: #A52038; /* Darker pinkish red on hover */
+    transform: scale(1.05); /* Button enlarges slightly on hover */
+}
+
+/* Text Link */
+.text-link {
+    color: #D42A49; /* Pinkish red */
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.text-link:hover {
+    color: #A52038; /* Darker pinkish red on hover */
+}
+/* About Section */
+
+
+/* Scroll Down Link */
+.scroll-down {
+    margin-top: 2rem;
+}
+
+
+.scroll-down a {
+    color: #D42A49; /* Pinkish red */
+    text-decoration: none;
+    font-weight: bold;
+    border: 2px solid #D42A49;
+    padding: 0.5rem 1rem;
+    border-radius: 5px;
+    transition: all 0.3s ease;
+}
+
+.scroll-down a:hover {
+    background-color: #D42A49;
+    color: white;
+}
+.nm{
+    color: #D42A49; 
+    
+}
+.mm{
+    color: #F8E8C8; 
+    margin: 5%;
+}
+select{
+    background-color: #F8E8C8;
+    border: 1px solid #D42A49;
+
+}
+option {
+    color: #7A5E3A; /* Darker brown placeholder text */
+}
+
+
+/* Shared Background for All Sections */
+.section {
+    background: url('school-picture.jpg') no-repeat center center/cover;
+    background-attachment: fixed; /* Ensures background remains fixed */
+    min-height: 100vh;
+    display: grid;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    color: #F8E8C8; /* Light brown text */
+}
+
+/* Home Section Overlay */
+.overlay {
+    background: rgba(0, 0, 0, 0.772); /* Light overlay */
+    padding: 0.2rem;
+    text-align: center;
+    border-radius: 10px;
+}
+
+/* About Section Overlay */
+.darker-overlay {
+    background: rgba(0, 0, 0, 0.952); /* Darker overlay for readability */
+    padding: 0rem 20rem;
+    border-radius: 1px;
+    text-align: center;
+    font-size: 1.2rem;
+    max-width: 800px;
+    margin: auto;
+}
+
+
+/* Buttons */
+
+
+/* List Items in About Section */
+ul {
+    list-style: none;
+    padding: 0;
+    
+   
+}
+p{
+    font-size: 1.2rem;
+    line-height: 1.4;
+    max-width: 800px;
+    margin: 2 auto 1.5rem auto;
+}
+
+ul li {
+    background: rgba(255, 255, 255, 0.097); /* Subtle overlay */
+    padding: 1rem;
+    border-radius: 8px;
+    margin: 0.5rem 0;
+    color: #D42A49; /* Pinkish red */
+    font-weight: bold;
+}
+
+
