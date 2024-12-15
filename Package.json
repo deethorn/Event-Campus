@@ -1,13 +1,21 @@
 {
-    "name": "event-management-frontend",
+    "name": "event-management-system",
     "version": "1.0.0",
-    "description": "Frontend for event management website",
+    "description": "Event Management System",
     "main": "index.js",
     "scripts": {
-        "start": "live-server"
+        "start": "node index.js"
     },
-    "dependencies": {},
-    "devDependencies": {
-        "live-server": "^1.2.1"
+    "dependencies": {
+        "bcryptjs": "^2.4.3",
+        "body-parser": "^1.20.3",
+        "cors": "^2.8.5",
+        "dotenv": "^16.4.7",
+        "express": "^4.21.2",
+        "jsonwebtoken": "^9.0.2",
+        "pg": "^8.13.1"
+    },
+    "engines": {
+        "node": ">=14.0.0"
     }
 }
