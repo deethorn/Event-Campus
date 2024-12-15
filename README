@@ -1,3 +1,5 @@
+## Campus Event Management
+
 ## Overview
 This is a dynamic web application for managing events, allowing users and admins to interact seamlessly. The application includes features like user registration, login, admin management, event creation, RSVP functionality, and profile editing. Below, you’ll find detailed notes about the application's functionalities, what works as intended, and areas that require debugging or optimization.
 
@@ -96,7 +98,9 @@ This is a dynamic web application for managing events, allowing users and admins
    - Profile Editing
 4. Debug any remaining errors using the console logs and error messages.
 
+## Deployment link:## https://deethorn.github.io/Event-Campus/
 
+## Repository link:## https://github.com/deethorn/Event-Campus.git
 
 ## Recommendations for Further Improvement
 - Implement proper session handling to avoid persistence errors during logout.
