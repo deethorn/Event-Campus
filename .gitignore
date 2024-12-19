@@ -1,2 +1,5 @@
-/code am not using
-/node_modules
+node_modules/
+.env
+.DS_Store
+.vscode/
+code am not using/

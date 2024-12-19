@@ -105,7 +105,7 @@ This is a dynamic web application for managing events, allowing users and admins
 
 ##  you can test the application with these credentials:
 Admin: admin@example.com / admin123
-User: user@example.com / user123
+User: user@example.com / user123 or any other credentials of your choice
 
 ## Important Note:
 Due to the connectivity problem of the backend and the frontend, I disconnected the backend from the front end so that you can view other pages apart from the login and sign up page.

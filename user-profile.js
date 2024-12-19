@@ -58,4 +58,38 @@ saveProfileBtn.addEventListener("click", () => {
 // Initialize
 loadUserData();
 
+// Add logout functionality
+document.getElementById('edit-profile-btn').addEventListener('click', () => {
+    document.getElementById('edit-profile-modal').style.display = 'flex';
+});
+
+document.getElementById('close-modal').addEventListener('click', () => {
+    document.getElementById('edit-profile-modal').style.display = 'none';
+});
+
+// Add this for logout functionality
+document.getElementById('logout-btn').addEventListener('click', () => {
+    // Clear local storage
+    localStorage.removeItem('token');
+    localStorage.removeItem('user');
+    
+    // Redirect to login page
+    window.location.href = 'login.html';
+});
+
+// Load user data when page loads
+function loadUserData() {
+    const user = JSON.parse(localStorage.getItem('user'));
+    if (!user) {
+        window.location.href = 'login.html';
+        return;
+    }
+
+    // Update display name
+    document.getElementById('user-name').textContent = user.name;
+}
+
+// Initialize when page loads
+document.addEventListener('DOMContentLoaded', loadUserData);
+
 

@@ -17,7 +17,7 @@
         <section class="profile-section">
          <div class="profile-container">
              <div class="profile-pic-container">
-                 <img id="profile-pic" src="default-profile.jpg" alt="Profile Picture">
+                 <img id="profile-pic" src="/images/default-profile.jpg" alt="Profile Picture">
              </div>
              <div class="profile-info">
                  <h2 id="display-name">Welcome, <span id="user-name">User</span></h2>
@@ -60,9 +60,9 @@
                     Category:
                     <select id="filter-category">
                         <option value="">All</option>
-                        <option value="workshops">Workshops</option>
-                        <option value="club events">Club Events</option>
-                        <option value="seminars">Seminars</option>
+                        <option value="workshop">Workshop</option>
+                        <option value="seminar">Seminar</option>
+                        <option value="conference">Conference</option>
                     </select>
                 </label>
                 <label>
@@ -103,7 +103,11 @@
             </div>
         </div>
 
-      
+        <!-- Add this after the event display section -->
+        <section class="my-rsvps-section">
+            <h2>My RSVPs</h2>
+            <div id="rsvps-container"></div>
+        </section>
 
     </main>
     

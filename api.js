@@ -1,102 +1,123 @@
-// Mock data storage with some initial data
-const mockData = {
-    events: [
-        {
-            id: 1,
-            name: "Sample Event",
-            date: "2024-03-20",
-            location: "Main Hall",
-            description: "A sample event description",
-            speaker: "John Doe",
-            seats_available: 100,
-            category: "workshops",
-            cover_image: "default-event-image.jpg"
-        }
-    ],
-    users: [
-        {
-            id: 1,
-            name: "Admin User",
-            email: "admin@example.com",
-            password: "admin123",
-            role: "admin"
-        },
-        {
-            id: 2,
-            name: "Regular User",
-            email: "user@example.com", 
-            password: "user123",
-            role: "user"
-        }
-    ]
-};
+const BASE_URL = 'http://localhost:3000';
 
-// Create API object with our functions
 const API = {
-    login(credentials) {
-        const user = mockData.users.find(u => 
-            u.email === credentials.email && 
-            u.password === credentials.password &&
-            u.role === credentials.role
-        );
-        if (user) {
-            return {
-                token: 'mock_token',
-                user: {
-                    id: user.id,
-                    name: user.name,
-                    email: user.email,
-                    role: user.role
-                }
-            };
-        }
-        throw new Error('Invalid credentials');
-    },
-
-    registerUser(userData) {
-        const newUser = {
-            id: mockData.users.length + 1,
-            ...userData
-        };
-        mockData.users.push(newUser);
-        return {
-            token: 'mock_token',
-            user: {
-                id: newUser.id,
-                name: newUser.name,
-                email: newUser.email,
-                role: newUser.role
+    async login(credentials) {
+        try {
+            const response = await fetch(`${BASE_URL}/api/auth/login`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(credentials)
+            });
+            
+            if (!response.ok) {
+                throw new Error('Login failed');
             }
-        };
-    },
-
-    getEvents() {
-        return mockData.events;
-    },
-
-    createEvent(eventData) {
-        const newEvent = {
-            id: mockData.events.length + 1,
-            ...eventData
-        };
-        mockData.events.push(newEvent);
-        return newEvent;
-    },
-
-    deleteEvent(eventId) {
-        mockData.events = mockData.events.filter(event => event.id !== parseInt(eventId));
-        return { success: true };
-    },
-
-    updateEvent(eventData) {
-        const eventIndex = mockData.events.findIndex(e => e.id === eventData.id);
-        if (eventIndex !== -1) {
-            mockData.events[eventIndex] = { ...mockData.events[eventIndex], ...eventData };
-            return mockData.events[eventIndex];
+            return response.json();
+        } catch (error) {
+            console.error('API Error:', error);
+            throw error;
         }
-        throw new Error('Event not found');
+    },
+
+    async registerUser(userData) {
+        const response = await fetch(`${BASE_URL}/api/auth/register`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(userData)
+        });
+        
+        if (!response.ok) {
+            const error = await response.json();
+            throw new Error(error.error || 'Registration failed');
+        }
+        return response.json();
+    },
+
+    async getEvents() {
+        const response = await fetch(`${BASE_URL}/api/events`, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        });
+        if (!response.ok) {
+            const error = await response.json();
+            throw new Error(error.error || 'Failed to fetch events');
+        }
+        return response.json();
+    },
+
+    async createEvent(eventData) {
+        const response = await fetch(`${BASE_URL}/api/events`, {
+            method: 'POST',
+            body: eventData
+        });
+        
+        if (!response.ok) {
+            const error = await response.json();
+            throw new Error(error.error || 'Failed to create event');
+        }
+        return response.json();
+    },
+
+    async deleteEvent(eventId) {
+        const response = await fetch(`${BASE_URL}/api/events/${eventId}`, {
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        });
+        
+        if (!response.ok) {
+            const error = await response.json();
+            throw new Error(error.error || 'Failed to delete event');
+        }
+        return response.json();
+    },
+
+    async rsvpToEvent(eventId) {
+        const user = JSON.parse(localStorage.getItem('user'));
+        if (!user) {
+            throw new Error('Must be logged in to RSVP');
+        }
+
+        const response = await fetch(`${BASE_URL}/api/events/${eventId}/rsvp`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ userId: user.id })
+        });
+
+        if (!response.ok) {
+            const error = await response.json();
+            throw new Error(error.error || 'Failed to RSVP');
+        }
+        return response.json();
+    },
+
+    async getUserRSVPs() {
+        const user = JSON.parse(localStorage.getItem('user'));
+        if (!user) {
+            throw new Error('Must be logged in to view RSVPs');
+        }
+
+        const response = await fetch(`${BASE_URL}/api/users/${user.id}/rsvps`, {
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        });
+
+        if (!response.ok) {
+            const error = await response.json();
+            throw new Error(error.error || 'Failed to fetch RSVPs');
+        }
+        return response.json();
     }
 };
 
-// Make API available globally
 window.API = API;

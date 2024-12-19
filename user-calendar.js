@@ -1,257 +1,227 @@
-// // Dummy Event Data
-// const events = [
-//     { id: 1, name: "Workshop on AI", date: "2024-12-10", location: "Hall A", category: "Workshops", image: "ai-workshop.jpg" },
-//     { id: 2, name: "Club Meetup", date: "2024-12-12", location: "Room 204", category: "Club Events", image: "club-meetup.jpg" },
-//     { id: 3, name: "Seminar on Tech", date: "2024-12-15", location: "Main Auditorium", category: "Seminars", image: "tech-seminar.jpg" },
-// ];
+// Load events from the server
+async function loadEvents() {
+    try {
+        const events = await API.getEvents();
+        renderGridView(events);
+    } catch (error) {
+        console.error('Error loading events:', error);
+        alert('Failed to load events');
+    }
+}
 
-// // Selectors
-// const viewInGridButton = document.getElementById("view-in-grid");
-// const viewInCalendarButton = document.getElementById("view-in-calendar");
-// const eventsContainer = document.getElementById("events-container");
-// const calendarContainer = document.getElementById("calendar-container");
-// const calendar = document.getElementById("calendar");
-// const rsvpModal = document.getElementById("rsvp-modal");
-// const closeModal = document.getElementById("close-modal");
-// const rsvpForm = document.getElementById("rsvp-form");
-// let selectedEventId = null;
+// Render events in grid view
+function renderGridView(events) {
+    const eventsContainer = document.getElementById('events-container');
+    const calendarContainer = document.getElementById('calendar-container');
+    
+    eventsContainer.innerHTML = '';
+    eventsContainer.classList.remove('hidden');
+    calendarContainer.classList.add('hidden');
 
-
-// // Update renderGridView to include RSVP button functionality
-// function renderGridView() {
-//     eventsContainer.innerHTML = "";
-//     events.forEach(event => {
-//         const eventCard = document.createElement("div");
-//         eventCard.classList.add("event-card");
-//         eventCard.innerHTML = `
-//             <img src="${event.image}" alt="${event.name}">
-//             <div class="event-details">
-//                 <h3>${event.name}</h3>
-//                 <p><strong>Date:</strong> ${event.date}</p>
-//                 <p><strong>Location:</strong> ${event.location}</p>
-//                 <p><strong>Category:</strong> ${event.category}</p>
-//                 <button class="rsvp-btn" data-id="${event.id}">RSVP</button>
-//             </div>
-//         `;
-//         eventsContainer.appendChild(eventCard);
-//     });
-
-//     // Attach RSVP Button Events
-//     const rsvpButtons = document.querySelectorAll(".rsvp-btn");
-//     rsvpButtons.forEach(button => {
-//         button.addEventListener("click", (e) => {
-//             selectedEventId = parseInt(e.target.dataset.id);
-//             rsvpModal.classList.remove("hidden");
-//         });
-//     });
-// }
-
-// // Close Modal
-// closeModal.addEventListener("click", () => {
-//     rsvpModal.classList.add("hidden");
-// });
-
-// // Handle RSVP Form Submission
-// rsvpForm.addEventListener("rsvp-submit", (e) => {
-//     e.preventDefault();
-
-//     const userName = document.getElementById("user-name-rsvp").value.trim();
-//     const userEmail = document.getElementById("user-email-rsvp").value.trim();
-
-//     if (!userName || !userEmail) {
-//         alert("Please fill out all fields.");
-//         return;
-//     }
-
-//     // Confirm reservation
-//     const reservedEvent = events.find(ev => ev.id === selectedEventId);
-//     if (reservedEvent) {
-//         alert(`Reservation confirmed for ${reservedEvent.name}!`);
-//     }
-
-//     // Close Modal
-//     rsvpModal.classList.add("hidden");
-// });
-
-
-// // Render Calendar View
-// function renderCalendarView() {
-//     calendar.innerHTML = "";
-//     const today = new Date();
-//     const year = today.getFullYear();
-//     const month = today.getMonth();
-//     const firstDay = new Date(year, month, 1).getDay();
-//     const daysInMonth = new Date(year, month + 1, 0).getDate();
-
-//     for (let i = 0; i < firstDay; i++) {
-//         calendar.innerHTML += `<div></div>`;
-//     }
-
-//     for (let day = 1; day <= daysInMonth; day++) {
-//         const dateCell = document.createElement("div");
-//         dateCell.classList.add("calendar-day");
-//         dateCell.innerHTML = `<h4>${day}</h4>`;
-        
-//         events.forEach(event => {
-//             const eventDate = new Date(event.date);
-//             if (eventDate.getDate() === day && eventDate.getMonth() === month) {
-//                 const eventLabel = document.createElement("div");
-//                 eventLabel.classList.add("event");
-//                 eventLabel.textContent = event.name;
-//                 dateCell.appendChild(eventLabel);
-//             }
-//         });
-
-//         calendar.appendChild(dateCell);
-//     }
-// }
-
-// // Event Listeners
-// viewInGridButton.addEventListener("click", () => {
-//     eventsContainer.classList.remove("hidden");
-//     calendarContainer.classList.add("hidden");
-//     renderGridView();
-// });
-
-// viewInCalendarButton.addEventListener("click", () => {
-//     calendarContainer.classList.remove("hidden");
-//     eventsContainer.classList.add("hidden");
-//     renderCalendarView();
-// });
-
-// // Initial Load
-// renderGridView();
-
-// Dummy Event Data
-// Dummy Event Data
-const events = [
-    { id: 1, name: "Workshop on AI", date: "2024-12-10", location: "Hall A", category: "Workshops", image: "ai-workshop.jpg" },
-    { id: 2, name: "Club Meetup", date: "2024-12-12", location: "Room 204", category: "Club Events", image: "club-meetup.jpg" },
-    { id: 3, name: "Seminar on Tech", date: "2024-12-15", location: "Main Auditorium", category: "Seminars", image: "tech-seminar.jpg" },
-];
-
-// Selectors
-const viewInGridButton = document.getElementById("view-in-grid");
-const viewInCalendarButton = document.getElementById("view-in-calendar");
-const eventsContainer = document.getElementById("events-container");
-const calendarContainer = document.getElementById("calendar-container");
-const calendar = document.getElementById("calendar");
-
-// Modal Elements
-const rsvpModal = document.getElementById("rsvp-modal");
-const modalCloseButton = document.getElementById("modal-close");
-const modalForm = document.getElementById("rsvp-form");
-const modalEventName = document.getElementById("modal-event-name");
-const userNameInput = document.getElementById("user-name");
-const userEmailInput = document.getElementById("user-email");
-
-// Render Grid View
-function renderGridView() {
-    eventsContainer.innerHTML = "";
-    events.forEach((event) => {
-        const eventCard = document.createElement("div");
-        eventCard.classList.add("event-card");
+    events.forEach(event => {
+        const eventCard = document.createElement('div');
+        eventCard.className = 'event-card';
         eventCard.innerHTML = `
-            <img src="${event.image}" alt="${event.name}">
+            <img src="${event.cover_image ? `http://localhost:3000${event.cover_image}` : '/images/default-event.jpg'}" 
+                 alt="${event.name}" 
+                 class="event-image" 
+                 onerror="handleImageError(this)">
             <div class="event-details">
                 <h3>${event.name}</h3>
-                <p><strong>Date:</strong> ${event.date}</p>
+                <p><strong>Date:</strong> ${new Date(event.date).toLocaleDateString()}</p>
                 <p><strong>Location:</strong> ${event.location}</p>
+                <p><strong>Speaker:</strong> ${event.speaker}</p>
+                <p><strong>Available Seats:</strong> ${event.seats_available}</p>
                 <p><strong>Category:</strong> ${event.category}</p>
-                <button class="rsvp-btn" data-event-id="${event.id}">RSVP</button>
+                <button class="rsvp-btn" onclick="handleRSVP(${event.id})" 
+                    ${event.seats_available <= 0 ? 'disabled' : ''}>
+                    ${event.seats_available <= 0 ? 'Fully Booked' : 'RSVP'}
+                </button>
             </div>
         `;
         eventsContainer.appendChild(eventCard);
     });
+}
 
-    // Add RSVP button event listeners
-    document.querySelectorAll(".rsvp-btn").forEach((button) => {
-        button.addEventListener("click", (e) => {
-            const eventId = e.target.getAttribute("data-event-id");
-            openRSVPModal(eventId);
-        });
+// Render events in calendar view
+function renderCalendarView(events) {
+    const eventsContainer = document.getElementById('events-container');
+    const calendarContainer = document.getElementById('calendar-container');
+    
+    eventsContainer.classList.add('hidden');
+    calendarContainer.classList.remove('hidden');
+    
+    // Clear existing calendar
+    calendarContainer.innerHTML = '';
+    
+    // Create calendar
+    const calendar = document.createElement('div');
+    calendar.id = 'calendar';
+    calendarContainer.appendChild(calendar);
+
+    // Group events by date
+    const eventsByDate = events.reduce((acc, event) => {
+        const date = new Date(event.date).toLocaleDateString();
+        if (!acc[date]) {
+            acc[date] = [];
+        }
+        acc[date].push(event);
+        return acc;
+    }, {});
+
+    // Create calendar grid
+    const calendarGrid = document.createElement('div');
+    calendarGrid.className = 'calendar-grid';
+
+    // Add days of week header
+    const daysOfWeek = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+    daysOfWeek.forEach(day => {
+        const dayHeader = document.createElement('div');
+        dayHeader.className = 'calendar-header';
+        dayHeader.textContent = day;
+        calendarGrid.appendChild(dayHeader);
     });
-}
 
-// Render Calendar View
-function renderCalendarView() {
-    calendar.innerHTML = "";
+    // Add calendar days
     const today = new Date();
-    const year = today.getFullYear();
-    const month = today.getMonth();
-    const firstDay = new Date(year, month, 1).getDay();
-    const daysInMonth = new Date(year, month + 1, 0).getDate();
+    const firstDay = new Date(today.getFullYear(), today.getMonth(), 1);
+    const lastDay = new Date(today.getFullYear(), today.getMonth() + 1, 0);
 
-    for (let i = 0; i < firstDay; i++) {
-        calendar.innerHTML += `<div></div>`;
+    // Add empty cells for days before first of month
+    for (let i = 0; i < firstDay.getDay(); i++) {
+        const emptyCell = document.createElement('div');
+        emptyCell.className = 'calendar-day empty';
+        calendarGrid.appendChild(emptyCell);
     }
 
-    for (let day = 1; day <= daysInMonth; day++) {
-        const dateCell = document.createElement("div");
-        dateCell.classList.add("calendar-day");
-        dateCell.innerHTML = `<h4>${day}</h4>`;
+    // Add days with events
+    for (let date = 1; date <= lastDay.getDate(); date++) {
+        const dayCell = document.createElement('div');
+        dayCell.className = 'calendar-day';
+        const currentDate = new Date(today.getFullYear(), today.getMonth(), date).toLocaleDateString();
+        
+        const dayEvents = eventsByDate[currentDate] || [];
+        
+        dayCell.innerHTML = `
+            <div class="date-number">${date}</div>
+            ${dayEvents.map(event => `
+                <div class="calendar-event" onclick="handleRSVP(${event.id})">
+                    ${event.name}
+                </div>
+            `).join('')}
+        `;
+        
+        calendarGrid.appendChild(dayCell);
+    }
 
-        events.forEach((event) => {
-            const eventDate = new Date(event.date);
-            if (eventDate.getDate() === day && eventDate.getMonth() === month) {
-                const eventLabel = document.createElement("div");
-                eventLabel.classList.add("event");
-                eventLabel.textContent = event.name;
-                dateCell.appendChild(eventLabel);
+    calendar.appendChild(calendarGrid);
+}
+
+// Add RSVP handling function
+async function handleRSVP(eventId) {
+    try {
+        const user = JSON.parse(localStorage.getItem('user'));
+        if (!user) {
+            alert('Please log in to RSVP');
+            window.location.href = 'login.html';
+            return;
+        }
+
+        await API.rsvpToEvent(eventId);
+        alert('Successfully RSVP\'d to event!');
+        // Reload events to update seats
+        loadEvents();
+    } catch (error) {
+        console.error('RSVP error:', error);
+        alert(error.message);
+    }
+}
+
+// Add this function to load RSVPs
+async function loadUserRSVPs() {
+    try {
+        const rsvps = await API.getUserRSVPs();
+        const rsvpsContainer = document.getElementById('rsvps-container');
+        
+        if (rsvps.length === 0) {
+            rsvpsContainer.innerHTML = '<p>You haven\'t RSVP\'d to any events yet.</p>';
+            return;
+        }
+
+        rsvpsContainer.innerHTML = '<div class="rsvp-grid">' + 
+            rsvps.map(event => `
+                <div class="rsvp-card">
+                    <img src="${event.cover_image ? `http://localhost:3000${event.cover_image}` : '/images/default-event.jpg'}" 
+                         alt="${event.name}" 
+                         class="event-image" 
+                         onerror="handleImageError(this)">
+                    <div class="rsvp-details">
+                        <h3>${event.name}</h3>
+                        <p><strong>Date:</strong> ${new Date(event.date).toLocaleDateString()}</p>
+                        <p><strong>Location:</strong> ${event.location}</p>
+                        <p><strong>RSVP Date:</strong> ${new Date(event.rsvp_date).toLocaleString()}</p>
+                    </div>
+                </div>
+            `).join('') + 
+        '</div>';
+    } catch (error) {
+        console.error('Error loading RSVPs:', error);
+        alert('Failed to load your RSVPs');
+    }
+}
+
+// Initialize event listeners
+document.addEventListener('DOMContentLoaded', () => {
+    // Load events when page loads
+    loadEvents();
+    loadUserRSVPs();
+
+    // View toggle buttons
+    document.getElementById('view-in-grid').addEventListener('click', async () => {
+        const events = await API.getEvents();
+        renderGridView(events);
+    });
+
+    document.getElementById('view-in-calendar').addEventListener('click', async () => {
+        const events = await API.getEvents();
+        renderCalendarView(events);
+    });
+
+    // Filter form
+    document.getElementById('filter-form').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        
+        const filters = {
+            name: document.getElementById('filter-name').value,
+            date: document.getElementById('filter-date').value,
+            location: document.getElementById('filter-location').value,
+            category: document.getElementById('filter-category').value,
+            seats: document.getElementById('filter-seats').value
+        };
+
+        try {
+            const events = await API.getEvents();
+            const filteredEvents = events.filter(event => {
+                // Convert event date to YYYY-MM-DD format for comparison
+                const eventDate = new Date(event.date).toISOString().split('T')[0];
+                
+                return (!filters.name || event.name.toLowerCase().includes(filters.name.toLowerCase())) &&
+                       (!filters.date || eventDate === filters.date) &&
+                       (!filters.location || event.location.toLowerCase().includes(filters.location.toLowerCase())) &&
+                       (!filters.category || event.category.toLowerCase() === filters.category.toLowerCase()) &&
+                       (!filters.seats || event.seats_available >= parseInt(filters.seats) || isNaN(parseInt(filters.seats)));
+            });
+
+            // Check if we're in grid or calendar view
+            const calendarContainer = document.getElementById('calendar-container');
+            if (calendarContainer.classList.contains('hidden')) {
+                renderGridView(filteredEvents);
+            } else {
+                renderCalendarView(filteredEvents);
             }
-        });
-
-        calendar.appendChild(dateCell);
-    }
-}
-
-// RSVP Modal Functions
-function openRSVPModal(eventId) {
-    const event = events.find((e) => e.id === parseInt(eventId));
-    if (event) {
-        modalEventName.textContent = event.name;
-        rsvpModal.style.display = "block";
-    }
-}
-
-function closeRSVPModal() {
-    rsvpModal.style.display = "none";
-}
-
-// Handle RSVP Form Submission
-modalForm.addEventListener("rsvp-submit", (e) => {
-    e.preventDefault();
-    const userName = userNameInput.value.trim();
-    const userEmail = userEmailInput.value.trim();
-
-    if (!userName || !userEmail) {
-        alert("Please fill in all fields.");
-        return;
-    }
-
-    alert(`Thank you, ${userName}! You have reserved a seat for the event.`);
-    closeRSVPModal();
+        } catch (error) {
+            console.error('Error filtering events:', error);
+            alert('Failed to filter events');
+        }
+    });
 });
-
-// Event Listeners
-viewInGridButton.addEventListener("click", () => {
-    eventsContainer.classList.remove("hidden");
-    calendarContainer.classList.add("hidden");
-    renderGridView();
-});
-
-viewInCalendarButton.addEventListener("click", () => {
-    calendarContainer.classList.remove("hidden");
-    eventsContainer.classList.add("hidden");
-    renderCalendarView();
-});
-
-modalCloseButton.addEventListener("click", closeRSVPModal);
-window.addEventListener("click", (e) => {
-    if (e.target === rsvpModal) {
-        closeRSVPModal();
-    }
-});
-
-// Initial Load
-renderGridView();

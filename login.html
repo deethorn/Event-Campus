@@ -30,29 +30,35 @@
     <script src="api.js"></script>
     <script>
         document.getElementById("login-form").addEventListener("submit", async (e) => {
-    e.preventDefault();
-    
-    const formData = {
-        email: document.getElementById("email").value,
-        password: document.getElementById("password").value,
-        role: document.getElementById("role").value
-    };
+            e.preventDefault();
+            
+            try {
+                const formData = {
+                    email: document.getElementById("email").value,
+                    password: document.getElementById("password").value,
+                    role: document.getElementById("role").value
+                };
 
-    try {
-        const data = API.login(formData);
-        localStorage.setItem('token', data.token);
-        localStorage.setItem('user', JSON.stringify(data.user));
-        
-        if (data.user.role === 'admin') {
-            window.location.href = 'admin-dashboard.html';
-        } else {
-            window.location.href = 'user-dashboard.html';
-        }
-    } catch (error) {
-        console.error('Login error:', error);
-        alert('Login failed. Please try again.');
-    }
-});
+                console.log('Attempting login with:', formData); // Debug log
+
+                const response = await API.login(formData);
+                console.log('Login response:', response); // Debug log
+
+                if (response && response.user) {
+                    localStorage.setItem('token', response.token);
+                    localStorage.setItem('user', JSON.stringify(response.user));
+                    
+                    if (response.user.role === 'admin') {
+                        window.location.href = 'admin-dashboard.html';
+                    } else {
+                        window.location.href = 'user-dashboard.html';
+                    }
+                }
+            } catch (error) {
+                console.error('Login error:', error);
+                alert('Login failed: ' + error.message);
+            }
+        });
     </script>
 </body>
 </html>

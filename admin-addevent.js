@@ -1,84 +1,47 @@
+// Get form element
 const addEventForm = document.getElementById("add-event-form");
-const eventsTable = document.getElementById("events-table").querySelector("tbody");
 
-// Load all events
-async function loadEvents() {
+// Handle form submission
+addEventForm.addEventListener("submit", async (e) => {
+    e.preventDefault();
+
+    // Create FormData object
+    const formData = new FormData();
+    
+    // Add form fields to FormData
+    formData.append('name', document.getElementById('event-name').value);
+    formData.append('date', document.getElementById('event-date').value);
+    formData.append('location', document.getElementById('event-location').value);
+    formData.append('description', document.getElementById('event-description').value);
+    formData.append('speaker', document.getElementById('event-speaker').value);
+    formData.append('seats_available', document.getElementById('event-seats').value);
+    formData.append('category', document.getElementById('event-category').value);
+
+    // Add cover image if one was selected
+    const coverImage = document.getElementById('event-cover-image').files[0];
+    if (coverImage) {
+        formData.append('cover_image', coverImage);
+    }
+
     try {
-        const events = API.getEvents();
-        eventsTable.innerHTML = '';
-        events.forEach(event => {
-            const row = createEventRow(event);
-            eventsTable.appendChild(row);
+        const response = await fetch('http://localhost:3000/api/events', {
+            method: 'POST',
+            body: formData // Don't set Content-Type header - browser will set it with boundary
         });
-    } catch (error) {
-        console.error('Error loading events:', error);
-        alert('Failed to load events');
-    }
-}
 
-// Create event row
-function createEventRow(event) {
-    const row = document.createElement('tr');
-    row.innerHTML = `
-        <td>${event.id}</td>
-        <td>${event.name}</td>
-        <td>${new Date(event.date).toLocaleDateString()}</td>
-        <td>${event.location}</td>
-        <td>${event.description}</td>
-        <td>${event.speaker}</td>
-        <td>${event.seats_available}</td>
-        <td>${event.category}</td>
-        <td><img src="${event.cover_image}" alt="Event Image" style="width: 50px; height: auto;"></td>
-        <td>
-            <button class="edit-btn" data-id="${event.id}">Edit</button>
-            <button class="delete-btn" data-id="${event.id}">Delete</button>
-        </td>
-    `;
-    return row;
-}
+        if (!response.ok) {
+            const error = await response.json();
+            throw new Error(error.error || 'Failed to create event');
+        }
 
-// Add event form submission
-addEventForm.addEventListener("submit", async (event) => {
-    event.preventDefault();
-
-    const eventData = {
-        name: document.getElementById('event-name').value,
-        date: document.getElementById('event-date').value,
-        location: document.getElementById('event-location').value,
-        description: document.getElementById('event-description').value,
-        speaker: document.getElementById('event-speaker').value,
-        seats_available: document.getElementById('event-seats').value,
-        category: document.getElementById('event-category').value,
-        cover_image: document.getElementById("event-cover-image").files[0]
-    }
-
-    try {
-        API.createEvent(eventData);
-        loadEvents();
-        addEventForm.reset();
         alert('Event added successfully!');
+        addEventForm.reset();
+        // Refresh the events list
+        if (typeof loadEvents === 'function') {
+            await loadEvents();
+        }
     } catch (error) {
         console.error('Error adding event:', error);
-        alert('Failed to add event');
+        alert('Error adding event: ' + error.message);
     }
 });
-
-// Delete event handler
-eventsTable.addEventListener('click', async (e) => {
-    if (e.target.classList.contains('delete-btn')) {
-        if (!confirm('Are you sure you want to delete this event?')) return;
-        
-        const eventId = e.target.dataset.id;
-        try {
-            API.deleteEvent(eventId);
-            loadEvents();
-            alert('Event deleted successfully!');
-        } catch (error) {
-            console.error('Error deleting event:', error);
-            alert('Failed to delete event');
-        }
-    }
-});
-
-// Load events when page loads
-document.addEventListener('DOMContentLoaded', loadEvents);

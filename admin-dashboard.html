@@ -3,107 +3,62 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Acitizens Ebony Events - Admin Dashboard</title>
+    <title>Admin Dashboard</title>
     <link rel="stylesheet" href="admin-dashboard.css">
 </head>
 <body>
     <header class="admin-header">
-        <a href="index.html" class="back-arrow" title="Back to Home">
-            &larr; Home
-        </a>
         <h1>Admin Dashboard</h1>
-        <script>
-            // Check if user is logged in and is admin
-            const user = JSON.parse(localStorage.getItem('user'));
-            if (!user || user.role !== 'admin') {
-                window.location.href = 'login.html';
-            }
-            document.getElementById('logout-btn').addEventListener('click', () => {
-            localStorage.removeItem('token');
-            localStorage.removeItem('user');
-            window.location.href = 'login.html';
-        });
-        </script>
         <div class="profile-info">
+            <img id="profile-pic" src="default-profile.jpg" alt="Profile Picture">
+            <span id="admin-name">Admin</span>
             <button id="logout-btn">Logout</button>
         </div>
-        
     </header>
-    <main>
-       <!-- Admin Profile Section -->
-       <section class="profile-section">
-        <div class="profile-container">
-            <div class="profile-pic-container">
-                <img id="profile-pic" src="default-profile.jpg" alt="Profile Picture">
-            </div>
-            <div class="profile-info">
-                <h2 id="display-name">Welcome, <span id="admin-name">Admin</span></h2>
-                <button id="edit-profile-btn">Edit Profile</button>
-            </div>
-        </div>
+
+    <!-- Add Event Form -->
+    <section class="add-event-section">
+        <h2>Add New Event</h2>
+        <form id="add-event-form">
+            <input type="text" id="event-name" name="name" placeholder="Event Name" required>
+            <input type="date" id="event-date" name="date" required>
+            <input type="text" id="event-location" name="location" placeholder="Location" required>
+            <textarea id="event-description" name="description" placeholder="Description" required></textarea>
+            <input type="text" id="event-speaker" name="speaker" placeholder="Speaker">
+            <input type="number" id="event-seats" name="seats_available" placeholder="Available Seats" required>
+            <select id="event-category" name="category" required>
+                <option value="">Select Category</option>
+                <option value="workshop">Workshop</option>
+                <option value="seminar">Seminar</option>
+                <option value="conference">Conference</option>
+            </select>
+            <input type="file" id="event-cover-image" name="cover_image" accept="image/*">
+            <button type="submit">Add Event</button>
+        </form>
     </section>
 
-    <!-- Edit Profile Modal -->
-    <div id="edit-profile-modal" class="modal">
-        <div class="modal-content">
-            <span id="close-modal" class="close">&times;</span>
-            <h3>Edit Profile</h3>
-            <label for="new-admin-name">Name:</label>
-            <input type="text" id="new-admin-name" placeholder="Enter new name">
-            <label for="new-profile-pic">Profile Picture:</label>
-            <input type="file" id="new-profile-pic" accept="image/*">
-            <button id="save-profile-btn">Save Changes</button>
-        </div>
-    </div>
-        <section class="add-event-section">
-            <h2>Add Event</h2>
-            <form method="post" id="add-event-form">
-                
-                <input type="text" id="event-name" placeholder="Event Name" required>
-                <input type="date" id="event-date" required>
-                <input type="text" id="event-location" placeholder="Event Location" required>
-                <textarea id="event-description" placeholder="Event Description" required></textarea>
-                <input type="text" id="event-speaker" placeholder="Event Speaker" required>
-                <input type="number" id="event-seats" placeholder="Number of Seats" min="1" required>
-                <select id="event-category" required>
-                    <option value="workshops">Workshops</option>
-                    <option value="club events">Club Events</option>
-                    <option value="seminars">Seminars</option>
-                </select>
-                <label for="event-photo">Upload Event Photo</label>
-                <input type="file" id="event-photo" accept="image/*" required>
-                <button type="submit" id="submit" value="add events"class="add-btn">Add Event</button>
-            </form>
-            
-        
+    <!-- Events Table -->
+    <section class="events-section">
+        <h2>Current Events</h2>
+        <table id="events-table">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Date</th>
+                    <th>Location</th>
+                    <th>Description</th>
+                    <th>Speaker</th>
+                    <th>Seats</th>
+                    <th>Category</th>
+                    <th>Image</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+    </section>
 
-          <div class="view-events-section">
-            <h2>View Events</h2>
-            <table id="events-table">
-                <thead>
-                    <tr>
-                        <th>ID</th>
-                        <th>Name</th>
-                        <th>Date</th>
-                        <th>Location</th>
-                        <th>Description</th>
-                        <th>Speaker</th>
-                        <th>Seats</th>
-                        <th>Category</th>
-                        <th>Thumbnail</th>
-                        <th>Actions</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <!-- Event rows will be dynamically added here -->
-                </tbody>
-         
-            </table>
-         </div>
-
-        </section>
-    </main>
-    
     <script src="api.js"></script>
     <script src="admin-dashboard.js"></script>
     <script src="admin-addevent.js"></script>
